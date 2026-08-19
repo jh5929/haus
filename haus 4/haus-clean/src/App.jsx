@@ -54,13 +54,20 @@ import {
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
 
-if (!supabaseUrl || !supabaseAnonKey) {
+// 注意：环境变数没设的时候不能直接呼叫 createClient，它会丢错误，
+// 整个页面会变成一片空白。这里改成先检查，没设就让 supabase = null，
+// 页面照常显示，只有登记表单送不出去（会显示错误讯息）。
+let supabaseClient = null;
+
+if (supabaseUrl && supabaseAnonKey) {
+  supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
+} else {
   console.warn(
-    "Supabase 环境变数没设定：请设定 REACT_APP_SUPABASE_URL 和 REACT_APP_SUPABASE_ANON_KEY"
+    "Supabase 环境变数没设定：请在 Vercel 设定 REACT_APP_SUPABASE_URL 和 REACT_APP_SUPABASE_ANON_KEY，然后重新部署。"
   );
 }
 
-export const supabase = createClient(supabaseUrl || "", supabaseAnonKey || "");
+export const supabase = supabaseClient;
 
 /* =============================================================================
  * §1  语言切换（中 / 英）
@@ -900,6 +907,7 @@ function RegisterForm() {
     setErr("");
     setStatus("sending");
     try {
+      if (!supabase) throw new Error("Supabase 环境变数没设定");
       const { error } = await supabase.from("leads").insert({
         name: form.name.trim(),
         phone: form.phone.trim(),
