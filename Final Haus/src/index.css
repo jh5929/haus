@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --gold: #C6A15B;
+    --gold-deep: #A9863F;
+    --taupe: #B8965E;
+    --taupe-deep: #8A6D3B;
+    --mocha: #837362;
+    --espresso: #33281E;
+    --ink: #0E0E0F;
+    --paper: #F4F1EA;
+    --whatsapp: #25D366;
+}
+
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+body {
+    margin: 0;
+    font-family: 'Manrope', sans-serif;
+    background-color: var(--paper);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+}
+
+::selection { background: var(--gold); color: #fff; }
+
+.font-display { font-family: 'Outfit', sans-serif; }
+.font-body { font-family: 'Manrope', sans-serif; }
+.font-serif-accent { font-family: 'Cormorant Garamond', serif; }
+
+/* Glassmorphism */
+.glass {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(18px) saturate(1.4);
+    -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 10px 40px -12px rgba(20, 20, 20, 0.18);
+}
+.glass-dark {
+    background: rgba(14, 14, 15, 0.35);
+    backdrop-filter: blur(16px) saturate(1.3);
+    -webkit-backdrop-filter: blur(16px) saturate(1.3);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+/* Grain overlay */
+.grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.35;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Global sharp corners — no rounded elements */
+*, *::before, *::after { border-radius: 0 !important; }
+
+/* Marble textures (Skyline Embassy Gold Series inspired) */
+.marble-light {
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+.marble-dark {
+    background-size: cover;
+    background-position: center;
+}
+
+.mask-line { overflow: hidden; display: block; }
+
+.tracking-mega { letter-spacing: 0.35em; }
+
+/* whatsapp pulse ring */
+@keyframes pulse-ring {
+    0% { transform: scale(0.9); opacity: 0.7; }
+    70% { transform: scale(1.6); opacity: 0; }
+    100% { opacity: 0; }
+}
+.pulse-ring::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background: var(--whatsapp);
+    animation: pulse-ring 2.4s cubic-bezier(0.19, 1, 0.22, 1) infinite;
+    z-index: -1;
+}
+
+@layer base {
+    :root {
+        --background: 0 0% 100%;
+        --foreground: 0 0% 3.9%;
+        --card: 0 0% 100%;
+        --card-foreground: 0 0% 3.9%;
+        --primary: 0 0% 9%;
+        --primary-foreground: 0 0% 98%;
+        --border: 0 0% 89.8%;
+        --input: 0 0% 89.8%;
+        --ring: 0 0% 3.9%;
+        --radius: 0.5rem;
+        --muted-foreground: 0 0% 45.1%;
+    }
+}
+
+/* 原本 App.css 的唯一一条规则，合并过来 */
+.App { min-height: 100vh; }
