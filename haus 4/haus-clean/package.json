@@ -40,11 +40,10 @@
       "last 1 safari version"
     ]
   }
-}
 
     "lenis": "^1.3.26",
     "lucide-react": "0.516.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-scripts": "5.0.1"
-  },
+}
