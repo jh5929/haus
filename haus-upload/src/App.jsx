@@ -342,10 +342,10 @@ function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25, duration: 0.6 }}
-          className="glass-dark inline-flex self-start items-center gap-3 rounded-xl border border-[#C0A063]/40 px-4 py-2 text-white/90"
+          className="inline-flex self-start items-center gap-3 rounded-xl bg-[#14110EE6] backdrop-blur-md border border-[#C8A24C]/55 px-4 py-2 shadow-[0_14px_34px_-20px_rgba(0,0,0,0.9)]"
         >
           <span className="w-2 h-2 bg-[#C8A24C]" />
-          <span className="text-[11px] sm:text-xs tracking-mega uppercase font-display">{t.hero.badge}</span>
+          <span className="text-[11px] sm:text-xs tracking-mega uppercase font-display text-[#C8A24C]">{t.hero.badge}</span>
         </motion.div>
 
         <div className="max-w-4xl">

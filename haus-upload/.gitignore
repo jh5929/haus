@@ -1,0 +1,16 @@
+# 依赖套件（npm install 会重新装，不要上传到 GitHub，300MB+）
+node_modules/
+
+# 编译产物
+build/
+
+# 环境变数（Supabase 金钥之类的，绝对不要上传）
+.env
+.env.local
+.env.*.local
+
+# 系统 / 编辑器杂档
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
