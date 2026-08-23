@@ -38,8 +38,8 @@ import {
 } from "lucide-react";
 
 import {
-  CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, GALLERY_IMAGES, HERO_IMAGE, IMG, MEDIA_IMAGES,
-  PARTNERSHIP_IMAGE, translations, UNITS, waLink, WHATSAPP_NUMBER,
+  CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_TEL, GALLERY_IMAGES, HERO_IMAGE, IMG, MEDIA_IMAGES,
+  PARTNERSHIP_IMAGE, translations, UNITS, waLink,
 } from "./content";
 
 /* =============================================================================
@@ -1358,7 +1358,7 @@ function Footer() {
         <div className="sm:text-right">
           <p className="font-display text-xs tracking-mega uppercase text-[#C8A24C] mb-3">{t.footer.contact}</p>
           <div className="flex flex-col gap-2 text-sm text-black/70 sm:items-end">
-            <a href={`tel:+${WHATSAPP_NUMBER}`} className="inline-flex items-center gap-2 hover:text-black transition-colors" data-testid="footer-phone-link">
+            <a href={`tel:+${CONTACT_PHONE_TEL}`} className="inline-flex items-center gap-2 hover:text-black transition-colors" data-testid="footer-phone-link">
               <Phone className="w-4 h-4 text-[#C8A24C]" /> {CONTACT_PHONE_DISPLAY}
             </a>
             <a href={`mailto:${CONTACT_EMAIL}`} className="inline-flex items-center gap-2 hover:text-black transition-colors" data-testid="footer-email-link">
