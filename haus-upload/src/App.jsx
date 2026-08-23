@@ -30,6 +30,7 @@ import { createContext, createElement, useCallback, useContext, useEffect, useRe
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import Lenis from "lenis";
 import { createClient } from "@supabase/supabase-js";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import {
   ArrowDown, Baby, Building2, CalendarDays, Car, CheckCircle2, ChevronLeft, ChevronRight, Download, Dumbbell,
   Expand, Flame, GraduationCap, HeartPulse, Landmark, Laptop, LayoutGrid, Loader2,
@@ -132,7 +133,7 @@ const WAButton = ({ children = "Enquire on WhatsApp", text, dark = false, testId
 const goldParts = (text = "") =>
   text.split("|").map((part, i) => (i % 2 ? <span key={i} className="text-[var(--gold)]">{part}</span> : part));
 
-// 每个区块最上面那行金色小标题（底下带一条短金线，参考图的样式）
+// 每个区块最上面那行金色小标题（��下带一条短金线，参考图的样式）
 const Eyebrow = ({ children, className = "" }) => (
   <div className={`mb-4 ${className}`}>
     <p className="font-display text-xs tracking-mega uppercase text-[var(--taupe-deep)]">{children}</p>
@@ -388,7 +389,7 @@ function Hero() {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const imgY = useTransform(scrollYProgress, [0, 1], ["0%", "22%"]);       // 背景图往下移
-  const imgScale = useTransform(scrollYProgress, [0, 1], [1.05, 1.18]);    // 背景图放大
+  const imgScale = useTransform(scrollYProgress, [0, 1], [1.05, 1.18]);    // 背��图放大
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "-30%"]);  // 文字往上移
   const fade = useTransform(scrollYProgress, [0, 0.8], [1, 0]);            // 文字淡出
 
@@ -899,7 +900,7 @@ function FloorPlans() {
           data-testid={`plan-card-${u.type}`}
           className="rounded-3xl bg-white border border-black/5 p-5 sm:p-7 shadow-[0_24px_70px_-40px_rgba(0,0,0,0.45)] cursor-grab active:cursor-grabbing"
         >
-          {/* 手机版：标题在最上面；电脑版这块会藏起来，改用右栏那一份 */}
+          {/* 手机版：标题在最上面；电脑版这块会藏起来，改用右栏那���份 */}
           <div className="lg:hidden">{titleBlock}</div>
 
           <div className="lg:flex lg:gap-8 lg:items-stretch">
@@ -1633,6 +1634,7 @@ export default function App() {
         </main>
         <Footer />
         <FloatingWhatsApp />
+        <SpeedInsights />
       </div>
     </LanguageProvider>
   );
