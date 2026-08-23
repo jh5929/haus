@@ -1,0 +1,5 @@
+# 允许所有搜寻引擎收录整个网站
+User-agent: *
+Allow: /
+
+Sitemap: https://hausonss15.com/sitemap.xml
