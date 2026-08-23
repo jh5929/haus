@@ -16,11 +16,12 @@
  * 1. 联络资料
  * ------------------------------------------------------------------------ */
 
-export const WHATSAPP_NUMBER = "60126501692"; // 国际格式，不要 + 号。目前 = +6012-6501692
+export const WHATSAPP_NUMBER = "60179436799"; // 国际格式，不要 + 号。目前 = +6017-9436799
 export const WHATSAPP_TEXT =
   "Hi, I'm interested in HAUS ON 15, please send me more details"; // 点 WhatsApp 按钮时预填的讯息
-export const CONTACT_EMAIL = "sales@hauson15.com"; // TODO: 换成你真正的邮箱
-export const CONTACT_PHONE_DISPLAY = "+6012-6501692"; // 页尾显示的电话号码
+export const CONTACT_EMAIL = "hauson15residence@gmail.com"; // 页尾的邮箱
+export const CONTACT_PHONE_DISPLAY = "+6017-9436799"; // 页尾显示的电话号码
+export const CONTACT_PHONE_TEL = "60179436799"; // 点电话时真正拨出去的号码（国际格式，不要 + 号）
 
 // 产生 WhatsApp 链接（extra = 该按钮专属的讯息，不填就用上面的 WHATSAPP_TEXT）
 export const waLink = (extra) =>
