@@ -128,6 +128,7 @@ export const translations = {
       keyLabels: { single: "Single key", dual: "Dual key", triple: "Triple key" },
       bed: "R", bath: "B",
       roi: "ROI",
+      swipeHint: "Swipe to see all 5 layouts",
       rentNote: "*Nett Rental calculated after deduction of Management Fee, Utilities, Maintenance Fee.",
       typeWord: "Type",
       sqft: "SQ FT",
@@ -139,7 +140,7 @@ export const translations = {
       enquireLayout: "Enquire about this layout",
     },
     nav: { residences: "Residences", gallery: "Gallery", location: "Location", register: "Register" },
-    floorplans: { enlarge: "Tap plan to enlarge" },
+    floorplans: { enlarge: "Tap to enlarge · pinch to zoom", resetZoom: "Reset" },
     glance: {
       eyebrow: "At a glance",
       heading: "The essentials.",
@@ -330,6 +331,7 @@ export const translations = {
       keyLabels: { single: "单钥匙", dual: "双钥匙", triple: "三钥匙" },
       bed: "房", bath: "卫",
       roi: "ROI 回报率",
+      swipeHint: "左右滑动看完 5 款户型",
       rentNote: "*净租金已扣除管理费、水电费与维护费。",
       typeWord: "户型",
       sqft: "平方尺",
@@ -341,7 +343,7 @@ export const translations = {
       enquireLayout: "咨询这个户型",
     },
     nav: { residences: "单位", gallery: "相册", location: "位置", register: "登记" },
-    floorplans: { enlarge: "点击平面图放大" },
+    floorplans: { enlarge: "点击放大 · 双指缩放", resetZoom: "复原" },
     glance: {
       eyebrow: "项目速览",
       heading: "核心资料。",

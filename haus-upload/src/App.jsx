@@ -31,7 +31,7 @@ import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion"
 import Lenis from "lenis";
 import { createClient } from "@supabase/supabase-js";
 import {
-  ArrowDown, Baby, Building2, CalendarDays, Car, CheckCircle2, Download, Dumbbell,
+  ArrowDown, Baby, Building2, CalendarDays, Car, CheckCircle2, ChevronLeft, ChevronRight, Download, Dumbbell,
   Expand, Flame, GraduationCap, HeartPulse, Landmark, Laptop, LayoutGrid, Loader2,
   Mail, MapPin, Menu, Minus, Newspaper, Phone, Plus, Scan, ShoppingCart, ShieldCheck,
   Tag, TrainFront, Trees, TreePine, TrendingUp, Users, Waves, Wine, Wrench, X, ZoomIn, ZoomOut,
@@ -139,6 +139,76 @@ const Eyebrow = ({ children, className = "" }) => (
     <span className="mt-2 block w-14 h-px bg-[#C0A063B3]" />
   </div>
 );
+
+/* 双指捏合缩放 + 放大后单指拖动。回传的东西直接摊在要缩放的元素上：
+ *   const pinch = usePinchZoom();
+ *   <div {...pinch.handlers} style={pinch.style}> <img/> </div>
+ * scale = 1 时不拦截手势，页面照常上下滚动、左右滑动换户型。 */
+function usePinchZoom({ max = 4 } = {}) {
+  const [scale, setScale] = useState(1);
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const st = useRef({ pointers: new Map(), startDist: 0, startScale: 1, pan: null, pinched: false });
+
+  const reset = useCallback(() => { setScale(1); setPos({ x: 0, y: 0 }); }, []);
+
+  const dist = () => {
+    const [a, b] = [...st.current.pointers.values()];
+    return Math.hypot(a.x - b.x, a.y - b.y);
+  };
+
+  const onPointerDown = (e) => {
+    st.current.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (st.current.pointers.size === 2) {
+      st.current.startDist = dist();
+      st.current.startScale = scale;
+      st.current.pinched = true;
+      st.current.pan = null;
+    } else if (st.current.pointers.size === 1 && scale > 1) {
+      st.current.pan = { x: e.clientX - pos.x, y: e.clientY - pos.y };
+    }
+  };
+
+  const onPointerMove = (e) => {
+    if (!st.current.pointers.has(e.pointerId)) return;
+    st.current.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+    if (st.current.pointers.size >= 2 && st.current.startDist > 0) {
+      const next = Math.min(max, Math.max(1, st.current.startScale * (dist() / st.current.startDist)));
+      setScale(next);
+      if (next === 1) setPos({ x: 0, y: 0 });
+    } else if (st.current.pan && scale > 1) {
+      setPos({ x: e.clientX - st.current.pan.x, y: e.clientY - st.current.pan.y });
+    }
+  };
+
+  const endPointer = (e) => {
+    st.current.pointers.delete(e.pointerId);
+    if (st.current.pointers.size < 2) st.current.startDist = 0;
+    if (st.current.pointers.size === 0) {
+      st.current.pan = null;
+      if (scale <= 1.05) reset();
+      setTimeout(() => { st.current.pinched = false; }, 60); // 让紧接着的 click 知道刚刚是在捏合
+    }
+  };
+
+  return {
+    scale,
+    pos,
+    setScale,
+    reset,
+    zoomed: scale > 1.05,
+    didPinch: () => st.current.pinched,
+    handlers: {
+      onPointerDown,
+      onPointerMove,
+      onPointerUp: endPointer,
+      onPointerCancel: endPointer,
+      onPointerLeave: endPointer,
+    },
+    // 没放大时不拦截手势（pan-y 让页面还能上下滚），放大后才吃掉手势用来拖动
+    style: { touchAction: scale > 1.05 ? "none" : "pan-y" },
+  };
+}
 
 const Reveal = ({ children, delay = 0, y = 40, className = "" }) => (
   <motion.div
@@ -634,24 +704,16 @@ function AtAGlance() {
 // 全屏平面图弹窗：点一下放大 2.2 倍，可以拖动
 function FloorPlanModal({ unit, onClose }) {
   const { t } = useLang();
-  const [zoom, setZoom] = useState(1);
-  const [pos, setPos] = useState({ x: 0, y: 0 });
-  const dragging = useRef(null);
+  const pinch = usePinchZoom({ max: 5 });
+  const { scale: zoom, pos, setScale, reset } = pinch;
 
   const toggleZoom = () => {
-    if (zoom > 1) { setZoom(1); setPos({ x: 0, y: 0 }); }
-    else setZoom(2.2);
+    if (zoom > 1.05) reset();
+    else setScale(2.2);
   };
 
-  const onPointerDown = (e) => {
-    if (zoom === 1) return;
-    dragging.current = { x: e.clientX - pos.x, y: e.clientY - pos.y };
-  };
-  const onPointerMove = (e) => {
-    if (!dragging.current) return;
-    setPos({ x: e.clientX - dragging.current.x, y: e.clientY - dragging.current.y });
-  };
-  const onPointerUp = () => { dragging.current = null; };
+  // 每次换户型 / 重新打开都回到原始大小
+  useEffect(() => { reset(); }, [unit, reset]);
 
   return (
     <AnimatePresence>
@@ -691,22 +753,22 @@ function FloorPlanModal({ unit, onClose }) {
             </div>
           </div>
 
+          {/* 点图片以外的空白处 = 关掉（拇指不用够到最上面那颗 X） */}
           <div
             className="flex-1 overflow-hidden flex items-center justify-center px-3 pb-3 select-none"
-            onClick={(e) => e.stopPropagation()}
-            onPointerDown={onPointerDown}
-            onPointerMove={onPointerMove}
-            onPointerUp={onPointerUp}
-            onPointerLeave={onPointerUp}
+            data-testid="floorplan-backdrop"
+            onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+            style={pinch.style}
+            {...pinch.handlers}
           >
             <motion.img
               src={IMG(unit.plan)}
               alt={`Type ${unit.type} floor plan`}
               onDoubleClick={toggleZoom}
-              onClick={() => zoom === 1 && toggleZoom()}
+              onClick={(e) => { e.stopPropagation(); if (!pinch.didPinch() && zoom <= 1.05) toggleZoom(); }}
               animate={{ scale: zoom, x: pos.x, y: pos.y }}
-              transition={{ type: "spring", stiffness: 260, damping: 26 }}
-              className={`max-h-full max-w-full w-auto rounded-xl bg-white ${zoom > 1 ? "cursor-grab active:cursor-grabbing" : "cursor-zoom-in"}`}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className={`max-h-full max-w-full w-auto rounded-xl bg-white ${zoom > 1.05 ? "cursor-grab active:cursor-grabbing" : "cursor-zoom-in"}`}
               draggable={false}
             />
           </div>
@@ -725,16 +787,20 @@ function FloorPlans() {
   const [active, setActive] = useState(0);        // 目前选中第几个户型
   const [dir, setDir] = useState(1);              // 切换方向：1 = 往右，-1 = 往左
   const [zoomUnit, setZoomUnit] = useState(null); // 不是 null 就会弹出放大视窗
+  const [swiped, setSwiped] = useState(false);    // 用户滑过一次之后就不再提示
+  const pinch = usePinchZoom({ max: 4 });         // 小图上的双指缩放
   const u = UNITS[active];
 
   const go = (i) => {
     if (i < 0 || i > UNITS.length - 1 || i === active) return;
     setDir(i > active ? 1 : -1);
     setActive(i);
+    pinch.reset();
   };
 
   // 手机上左右滑动换户型（拖超过 60px 就换下一个）
   const onDragEnd = (_e, info) => {
+    if (Math.abs(info.offset.x) > 30) setSwiped(true);
     if (info.offset.x < -60) go(active + 1);
     else if (info.offset.x > 60) go(active - 1);
   };
@@ -794,6 +860,30 @@ function FloorPlans() {
         ))}
       </div>
 
+      {/* 手机版的滑动提示：小圆点标示位置，滑过一次之后提示文字就消失 */}
+      <div className="mt-4 flex items-center justify-center gap-3 lg:hidden" data-testid="plan-swipe-hint">
+        <ChevronLeft className={`w-4 h-4 text-[var(--taupe-deep)] transition-opacity ${active === 0 ? "opacity-20" : "opacity-70"}`} />
+        <div className="flex items-center gap-1.5">
+          {UNITS.map((unit, i) => (
+            <span
+              key={unit.type}
+              className={`h-1.5 rounded-full transition-all ${i === active ? "w-5 bg-[var(--taupe-deep)]" : "w-1.5 bg-black/20"}`}
+            />
+          ))}
+        </div>
+        <ChevronRight className={`w-4 h-4 text-[var(--taupe-deep)] transition-opacity ${active === UNITS.length - 1 ? "opacity-20" : "opacity-70"}`} />
+      </div>
+      {!swiped && (
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0.45, 1, 0.45] }}
+          transition={{ repeat: Infinity, duration: 2.4 }}
+          className="mt-2 text-center text-[11px] font-display tracking-[0.14em] uppercase text-[var(--taupe-deep)] lg:hidden"
+        >
+          {t.units.swipeHint}
+        </motion.p>
+      )}
+
       {/* 户型卡（可以左右滑动切换） */}
       <div className="mt-4 overflow-hidden">
         {/* key = 户型代号，换户型时 React 会重新挂载这张卡，顺便播一次滑入动画 */}
@@ -802,7 +892,7 @@ function FloorPlans() {
           initial={{ opacity: 0, x: dir * 60 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ type: "spring", stiffness: 260, damping: 28 }}
-          drag="x"
+          drag={pinch.zoomed ? false : "x"}
           dragConstraints={{ left: 0, right: 0 }}
           dragElastic={0.18}
           onDragEnd={onDragEnd}
@@ -814,21 +904,38 @@ function FloorPlans() {
 
           <div className="lg:flex lg:gap-8 lg:items-stretch">
             {/* 平面图（点一下放大）—— 电脑版在左边 */}
-            <button
+            <div
               data-testid="plan-image-enlarge"
-              onClick={() => setZoomUnit(u)}
-              className="group relative mt-5 lg:mt-0 block w-full lg:w-[54%] shrink-0 rounded-2xl overflow-hidden bg-white"
+              role="button"
+              tabIndex={0}
+              onClick={() => { if (!pinch.didPinch() && !pinch.zoomed) setZoomUnit(u); }}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setZoomUnit(u); }}
+              style={pinch.style}
+              {...pinch.handlers}
+              className="group relative mt-5 lg:mt-0 block w-full lg:w-[54%] shrink-0 rounded-2xl overflow-hidden bg-white cursor-zoom-in select-none"
             >
-              <img
+              <motion.img
                 src={IMG(u.plan)}
                 alt={`Type ${u.type} floor plan`}
+                animate={{ scale: pinch.scale, x: pinch.pos.x, y: pinch.pos.y }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 className="w-full h-full max-h-[420px] lg:max-h-none object-contain"
                 draggable={false}
               />
               <span className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-[#14110E]/80 text-white text-xs font-display px-3 py-1.5">
                 <Expand className="w-3.5 h-3.5" /> {t.floorplans.enlarge}
               </span>
-            </button>
+              {/* 捏放大之后给个回到原状的按钮 */}
+              {pinch.zoomed && (
+                <button
+                  data-testid="plan-pinch-reset"
+                  onClick={(e) => { e.stopPropagation(); pinch.reset(); }}
+                  className="absolute top-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-[#14110E]/80 text-white text-xs font-display px-3 py-1.5"
+                >
+                  <ZoomOut className="w-3.5 h-3.5" /> {t.floorplans.resetZoom}
+                </button>
+              )}
+            </div>
 
             {/* 右栏：标题 + 售价 + 三个数据 + 备注 */}
             <div className="lg:flex-1 lg:flex lg:flex-col lg:justify-center">
