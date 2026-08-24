@@ -118,3 +118,13 @@ body {
 
 /* 原本 App.css 的唯一一条规则，合并过来 */
 .App { min-height: 100vh; }
+
+/* 右下角的 WhatsApp 浮动按钮要圆的。
+   上面那条「全站直角」的规则用了 !important，会把它压成方块，
+   所以这里单独把它（和它的脉冲光圈）放行，其他地方维持直角不变。 */
+.wa-fab, .wa-fab::before {
+    border-radius: 9999px !important;
+}
+.wa-fab {
+    box-shadow: 0 10px 30px -6px rgba(37, 211, 102, 0.6);
+}

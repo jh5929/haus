@@ -19,6 +19,14 @@
 export const WHATSAPP_NUMBER = "60179436799"; // 国际格式，不要 + 号。目前 = +6017-9436799
 export const WHATSAPP_TEXT =
   "Hi, I'm interested in HAUS ON 15, please send me more details"; // 点 WhatsApp 按钮时预填的讯息
+/* ---- 广告追踪 ID（没有就留空字串，网站照常跑）----------------------------
+ *  META_PIXEL_ID：Meta 企业管理平台 → 事件管理工具 → 你的像素，一串数字
+ *  GA4_ID       ：Google Analytics → 管理 → 资料串流，G- 开头
+ *  填好之后重新部署一次才会生效。
+ * ------------------------------------------------------------------------- */
+export const META_PIXEL_ID = "";
+export const GA4_ID = "";
+
 export const CONTACT_EMAIL = "hauson15residence@gmail.com"; // 页尾的邮箱
 export const CONTACT_PHONE_DISPLAY = "+6017-9436799"; // 页尾显示的电话号码
 export const CONTACT_PHONE_TEL = "60179436799"; // 点电话时真正拨出去的号码（国际格式，不要 + 号）
