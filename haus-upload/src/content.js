@@ -24,8 +24,8 @@ export const WHATSAPP_TEXT =
  *  GA4_ID       ：Google Analytics → 管理 → 资料串流，G- 开头
  *  填好之后重新部署一次才会生效。
  * ------------------------------------------------------------------------- */
-export const META_PIXEL_ID = "";
-export const GA4_ID = "";
+export const META_PIXEL_ID = "1425633976106146";
+export const GA4_ID = "G-GZGMQ2JB12";
 
 export const CONTACT_EMAIL = "hauson15residence@gmail.com"; // 页尾的邮箱
 export const CONTACT_PHONE_DISPLAY = "+6017-9436799"; // 页尾显示的电话号码
