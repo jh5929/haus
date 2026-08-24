@@ -27,6 +27,18 @@ export const WHATSAPP_TEXT =
 export const META_PIXEL_ID = "1425633976106146";
 export const GA4_ID = "G-GZGMQ2JB12";
 
+/*  Google Ads（投搜寻广告用的，跟 GA4 是两套东西）
+ *  GOOGLE_ADS_ID：AW- 开头，就是 Google Ads 给你的那串
+ *  GOOGLE_ADS_LABELS：每个「转换动作」会有自己的标签，长得像 AbC-D_efGhIjK
+ *    去 Google Ads → 目标 → 转换 → 建立转换动作 → 选「手动安装代码」，
+ *    它给你的 send_to 会是 AW-18407900010/AbC-D_efGhIjK，斜线后面那段就是标签。
+ *    没填的话广告后台还是收得到流量和再行销名单，只是不会记录转换。 */
+export const GOOGLE_ADS_ID = "AW-18407900010";
+export const GOOGLE_ADS_LABELS = {
+  lead: "",     // 留资表单送出成功
+  whatsapp: "", // 点 WhatsApp
+};
+
 export const CONTACT_EMAIL = "hauson15residence@gmail.com"; // 页尾的邮箱
 export const CONTACT_PHONE_DISPLAY = "+6017-9436799"; // 页尾显示的电话号码
 export const CONTACT_PHONE_TEL = "60179436799"; // 点电话时真正拨出去的号码（国际格式，不要 + 号）
