@@ -1319,10 +1319,25 @@ function RegisterForm() {
       setStatus("done");
       trackLead(); // 回报给 Meta / GA4：这是一个成交线索
     } catch {
+      // 资料库挂掉 / 被暂停的时候，不能让线索就这样消失 —— 改走 WhatsApp
       setStatus("error");
       setErr(t.register.errFailed);
     }
   };
+
+  // 把使用者已经填好的资料组成 WhatsApp 讯息，一个字都不用重打
+  const fallbackWaLink = () =>
+    waLink(
+      [
+        "Hi, I'd like to register my interest in HAUS ON 15.",
+        `Name: ${form.name.trim()}`,
+        `Phone: ${form.phone.trim()}`,
+        form.email.trim() ? `Email: ${form.email.trim()}` : "",
+        form.floorplan ? `Interested in: Type ${form.floorplan}` : "",
+      ]
+        .filter(Boolean)
+        .join("\n")
+    );
 
   return (
     <section id="register" className="relative px-3 sm:px-8 py-16 scroll-mt-24" data-testid="register-section">
@@ -1418,6 +1433,20 @@ function RegisterForm() {
                 </div>
 
                 {err && <p className="text-sm text-red-600 font-body" data-testid="register-error">{err}</p>}
+
+                {/* 送出失败时的救援按钮：带着已填资料直接开 WhatsApp，不让线索掉在这里 */}
+                {status === "error" && (
+                  <a
+                    href={fallbackWaLink()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-testid="register-whatsapp-fallback"
+                    className="flex items-center justify-center gap-2 w-full py-3.5 bg-[#25D366] text-white font-display font-semibold tracking-wide"
+                  >
+                    <WhatsappIcon className="w-5 h-5" />
+                    {t.register.sendViaWhatsApp}
+                  </a>
+                )}
 
                 <motion.button
                   type="submit"

@@ -250,6 +250,7 @@ export const translations = {
       orWhatsapp: "Or chat with us instantly on WhatsApp",
       errRequired: "Please fill in all fields.",
       errFailed: "Something went wrong. Please try again or use WhatsApp.",
+      sendViaWhatsApp: "Send my details on WhatsApp",
     },
     gallery: {
       eyebrow: "The vision",
@@ -451,6 +452,7 @@ export const translations = {
       orWhatsapp: "或立即透过 WhatsApp 联系我们",
       errRequired: "请填写所有栏位。",
       errFailed: "提交失败，请再试一次，或直接用 WhatsApp 联系我们。",
+      sendViaWhatsApp: "用 WhatsApp 传送我的资料",
     },
     gallery: {
       eyebrow: "项目愿景",

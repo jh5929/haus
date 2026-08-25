@@ -1,0 +1,51 @@
+# =============================================================================
+#  让 Supabase 免费方案不要自动休眠
+# =============================================================================
+#  免费方案「超过 7 天没活动」就会暂停专案，一暂停网站的留资表单就写不进去。
+#  这个排程每两天打一次资料库，让它一直被算成「有活动」。
+#
+#  需要先在 GitHub 设两个 Secret（Settings → Secrets and variables → Actions）：
+#    SUPABASE_URL       例如 https://xxxx.supabase.co
+#    SUPABASE_ANON_KEY  Supabase → Settings → API → anon public key
+#
+#  想手动跑一次：Actions 分页 → 选这个 workflow → Run workflow
+# =============================================================================
+
+name: Supabase keep-alive
+
+on:
+  schedule:
+    # 每两天的 03:17 UTC（马来西亚时间早上 11:17）跑一次。
+    # 故意避开整点 —— GitHub 整点排队最挤，容易被延后。
+    - cron: "17 3 */2 * *"
+  workflow_dispatch: # 让你可以手动按一下
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Query the leads table
+        env:
+          URL: ${{ secrets.SUPABASE_URL }}
+          KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          if [ -z "$URL" ] || [ -z "$KEY" ]; then
+            echo "::error::SUPABASE_URL 或 SUPABASE_ANON_KEY 这两个 Secret 还没设定"
+            exit 1
+          fi
+
+          # 真的去查一笔资料，让 Postgres 有实际活动（只打到 API 不一定算数）
+          code=$(curl -sS -o /tmp/out.txt -w "%{http_code}" --max-time 30 \
+            -H "apikey: $KEY" \
+            -H "Authorization: Bearer $KEY" \
+            "$URL/rest/v1/leads?select=id&limit=1")
+
+          echo "HTTP $code"
+          head -c 300 /tmp/out.txt; echo
+
+          # 200 = 查到了；401/403 = RLS 挡住读取，但请求已经打到资料库，一样算活动
+          case "$code" in
+            200|401|403) echo "资料库有回应，专案是醒着的" ;;
+            000)         echo "::error::连不上，专案可能已经被暂停了"; exit 1 ;;
+            *)           echo "::error::非预期的回应 $code"; exit 1 ;;
+          esac
