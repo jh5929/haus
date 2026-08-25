@@ -39,7 +39,7 @@ import {
 } from "lucide-react";
 
 import {
-  CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_TEL, GALLERY_IMAGES, HERO_IMAGE, IMG, MEDIA_IMAGES,
+  AGENCY, CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_TEL, GALLERY_IMAGES, HERO_IMAGE, IMG, MEDIA_IMAGES,
   PARTNERSHIP_IMAGE, translations, UNITS, waLink,
 } from "./content";
 
@@ -1506,8 +1506,19 @@ function Footer() {
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto mt-10 pt-6 border-t border-black/10 text-black/40 text-xs font-body leading-relaxed">
-        <p>{t.footer.disclaimer}</p>
+      {/* 代理身分 —— 法规要求，也是让访客和 Google 知道网站是谁经营的 */}
+      <div className="max-w-5xl mx-auto mt-10 pt-6 border-t border-black/10" data-testid="footer-agency">
+        <p className="font-display text-xs tracking-mega uppercase text-[#C8A24C] mb-2">{t.footer.marketedBy}</p>
+        <p className="text-sm text-black/70 font-display font-semibold">{AGENCY.name}</p>
+        <p className="mt-1 text-xs text-black/50 font-body">
+          {AGENCY.license} · {AGENCY.agent} ({AGENCY.ren})
+        </p>
+        <p className="mt-1 text-xs text-black/50 font-body">{AGENCY.address}</p>
+      </div>
+
+      <div className="max-w-5xl mx-auto mt-6 pt-6 border-t border-black/10 text-black/40 text-xs font-body leading-relaxed">
+        <p>{t.footer.notOfficial}</p>
+        <p className="mt-2">{t.footer.disclaimer}</p>
         <p className="mt-2">© {new Date().getFullYear()} HAUS on 15.</p>
       </div>
     </footer>

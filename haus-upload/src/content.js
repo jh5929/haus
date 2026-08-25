@@ -39,6 +39,19 @@ export const GOOGLE_ADS_LABELS = {
   whatsapp: "", // 点 WhatsApp
 };
 
+/* ---- 销售代理资料（页尾显示）------------------------------------------
+ *  马来西亚房地产广告法规要求标示代理公司与 REN 编号；Google Ads 的广告主
+ *  验证也会看网站上有没有清楚交代「这个网站是谁经营的」。改动这里要跟
+ *  名片 / SSM 文件上的写法保持一致。
+ * ------------------------------------------------------------------------- */
+export const AGENCY = {
+  name: "Knight World Realty (M) Sdn Bhd",
+  license: "Registered Estate Agency E (1) 0239",
+  agent: "Kareen Loke",
+  ren: "REN 72111",
+  address: "ZP-01-01, First Floor, Zest Point, Lebuhraya Bukit Jalil, BK9, Bandar Kinrara, 47180 Puchong, Selangor",
+};
+
 export const CONTACT_EMAIL = "hauson15residence@gmail.com"; // 页尾的邮箱
 export const CONTACT_PHONE_DISPLAY = "+6017-9436799"; // 页尾显示的电话号码
 export const CONTACT_PHONE_TEL = "60179436799"; // 点电话时真正拨出去的号码（国际格式，不要 + 号）
@@ -307,6 +320,8 @@ export const translations = {
       tagline: "Freehold serviced apartments, student residences & strata shops in the heart of Subang Jaya SS15. Est. completion Q4 2029.",
       contact: "Contact",
       disclaimer: "All visuals are artist's impressions for reference only and do not form part of any offer or contract.",
+      marketedBy: "Marketed by",
+      notOfficial: "This site is operated by an appointed marketing agent and is not the developer's official website. Gamuda Land is named as the project developer for identification only.",
     },
     plan: { title: "Floor Plan", hint: "Tap image to zoom · drag to pan", close: "Close" },
   },
@@ -509,6 +524,8 @@ export const translations = {
       tagline: "永久地契服务式公寓、学生公寓及商铺，坐落梳邦再也 SS15 核心地段。预计 2029 年第四季完工。",
       contact: "联系我们",
       disclaimer: "所有图像均为艺术示意图，仅供参考，不构成任何要约或合约的一部分。",
+      marketedBy: "销售代理",
+      notOfficial: "本网站由受委任的销售代理营运，并非开发商官方网站。文中提及金务大 Gamuda Land 仅为识别项目之用。",
     },
     plan: { title: "平面图", hint: "点击图片放大 · 拖动平移", close: "关闭" },
   },
