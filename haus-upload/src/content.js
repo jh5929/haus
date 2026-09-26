@@ -35,7 +35,7 @@ export const GA4_ID = "G-GZGMQ2JB12";
  *    没填的话广告后台还是收得到流量和再行销名单，只是不会记录转换。 */
 export const GOOGLE_ADS_ID = "AW-18407900010";
 export const GOOGLE_ADS_LABELS = {
-  lead: "",     // 留资表单送出成功
+  lead: "tlPdCKaog-ccEOqGyclE", // 留资表单送出成功（Google Ads「Submit lead form」）
   whatsapp: "", // 点 WhatsApp
 };
 

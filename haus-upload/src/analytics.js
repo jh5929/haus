@@ -54,7 +54,8 @@ function send(gaName, fbName, fbStandard = true, params = {}, adsLabel = "") {
     window.gtag("event", gaName, params);
     // Google Ads 的转换要另外送一笔，而且一定要有标签才算数
     if (GOOGLE_ADS_ID && adsLabel) {
-      window.gtag("event", "conversion", { send_to: `${GOOGLE_ADS_ID}/${adsLabel}` });
+      // value / currency 跟 Google Ads 后台这个转换动作的设定一致（每笔 1 MYR）
+      window.gtag("event", "conversion", { send_to: `${GOOGLE_ADS_ID}/${adsLabel}`, value: 1.0, currency: "MYR" });
     }
   }
   if (window.fbq) window.fbq(fbStandard ? "track" : "trackCustom", fbName, params);
