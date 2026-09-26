@@ -15,10 +15,12 @@
  *    §7  Manifesto   为何投资 · 四个理由
  *    §8  AtAGlance   项目速览表格
  *    §9  FloorPlans  户型 A–E + 平面图放大弹窗
+ *    §9b VirtualTour 360° 样板房线上参观入口
  *    §10 Gallery     相册
  *    §11 Amenities   位置地图 + 周边配套手风琴
  *    §12 RentalDemand 租赁需求 + 周边院校学生人数图
  *    §13 MediaCoverage 媒体报道
+ *    §13b SiteProgress 工程进度空拍图
  *    §14 RegisterForm 登记表单（写入 Supabase leads 表）
  *    §15 Footer      页尾
  *    §16 FloatingWhatsApp 右下角浮动 WhatsApp 按钮
@@ -32,15 +34,15 @@ import Lenis from "lenis";
 import { createClient } from "@supabase/supabase-js";
 import { initAnalytics, trackLead } from "./analytics";
 import {
-  ArrowDown, Baby, Building2, CalendarDays, Car, CheckCircle2, ChevronLeft, ChevronRight, Download, Dumbbell,
-  Expand, Flame, GraduationCap, HeartPulse, Landmark, Laptop, LayoutGrid, Loader2,
-  Mail, MapPin, Menu, Minus, Newspaper, Phone, Plus, Scan, ShoppingCart, ShieldCheck,
+  ArrowDown, ArrowUpRight, Baby, Building2, CalendarDays, Car, CheckCircle2, ChevronLeft, ChevronRight, Download, Dumbbell,
+  Expand, Flame, GraduationCap, HardHat, HeartPulse, Landmark, Laptop, LayoutGrid, Loader2,
+  Mail, MapPin, Menu, Minus, Newspaper, Phone, Plus, Rotate3d, Scan, ShoppingCart, ShieldCheck,
   Tag, TrainFront, Trees, TreePine, TrendingUp, Users, Waves, Wine, Wrench, X, ZoomIn, ZoomOut,
 } from "lucide-react";
 
 import {
   AGENCY, CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_TEL, GALLERY_IMAGES, HERO_IMAGE, IMG, MEDIA_IMAGES,
-  PARTNERSHIP_IMAGE, translations, UNITS, waLink,
+  PARTNERSHIP_IMAGE, PROGRESS, translations, UNITS, VIRTUAL_TOUR_URL, waLink,
 } from "./content";
 
 /* =============================================================================
@@ -995,6 +997,126 @@ function FloorPlans() {
  *      说明文字改 gallery.items，两边顺序要一致）
  * ========================================================================== */
 
+/* =============================================================================
+ * §9b  VIRTUAL TOUR — 360° 样板房入口（连结在 content.js 的 VIRTUAL_TOUR_URL）
+ * =============================================================================
+ *  开新分页，不内嵌：360 导览很吃流量，内嵌会拖慢整页；而且手机要横放才好看。
+ * ========================================================================== */
+
+function VirtualTour() {
+  const { t } = useLang();
+  const v = t.tour;
+  return (
+    <section id="virtual-tour" className="px-4 sm:px-8 py-10 sm:py-14 max-w-5xl mx-auto scroll-mt-24" data-testid="virtual-tour-section">
+      <Reveal>
+        <a
+          href={VIRTUAL_TOUR_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-testid="virtual-tour-link"
+          className="group relative block overflow-hidden bg-[#14110E] text-white"
+        >
+          <img
+            src={IMG("interior-living.jpg")}
+            alt=""
+            loading="lazy"
+            className="absolute inset-0 w-full h-full object-cover opacity-60 transition duration-700 group-hover:scale-[1.03] group-hover:opacity-70"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#14110E]/95 via-[#14110E]/75 to-[#14110E]/40 sm:bg-gradient-to-r sm:from-[#14110E]/90 sm:via-[#14110E]/65 sm:to-transparent" />
+          <div className="relative px-6 sm:px-12 py-12 sm:py-16 max-w-xl">
+            <div className="flex items-center gap-2 text-[#C8A24C]">
+              <Rotate3d className="w-5 h-5" />
+              <p className="font-display text-xs tracking-mega uppercase">{v.eyebrow}</p>
+            </div>
+            <h2 className="mt-3 font-display font-bold text-3xl sm:text-4xl tracking-tight leading-[1.05]">{v.heading}</h2>
+            <p className="mt-4 text-white/75 font-body leading-relaxed">{v.body}</p>
+            <span className="mt-7 inline-flex items-center gap-2 bg-[#C8A24C] text-[#14110E] font-display font-semibold px-6 py-3.5 transition-colors group-hover:bg-white">
+              {v.cta} <ArrowUpRight className="w-4 h-4" />
+            </span>
+            <p className="mt-3 text-xs text-white/50 font-body">{v.hint}</p>
+          </div>
+        </a>
+      </Reveal>
+    </section>
+  );
+}
+
+/* =============================================================================
+ * §13b  SITE PROGRESS — 工程进度空拍图（资料在 content.js 的 PROGRESS）
+ * ========================================================================== */
+
+const PROGRESS_VISIBLE = 4; // 超过这个数量，旧的先收起来
+
+// "2026-08-21" → 英文 "21 Aug 2026"，中文 "2026年8月21日"
+const fmtDate = (iso, lang) => {
+  const [y, m, d] = iso.split("-").map(Number);
+  if (lang === "zh") return `${y}年${m}月${d}日`;
+  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString("en-GB", {
+    day: "numeric", month: "short", year: "numeric", timeZone: "UTC",
+  });
+};
+
+function SiteProgress() {
+  const { t, lang } = useLang();
+  const p = t.progress;
+  const [all, setAll] = useState(false);
+  if (!PROGRESS.length) return null;
+  const shown = all ? PROGRESS : PROGRESS.slice(0, PROGRESS_VISIBLE);
+
+  return (
+    <section id="progress" className="px-4 sm:px-8 py-16 sm:py-24 max-w-5xl mx-auto scroll-mt-24" data-testid="progress-section">
+      <Reveal className="max-w-2xl mx-auto text-center">
+        <div className="flex items-center justify-center gap-2 text-[var(--taupe-deep)]">
+          <HardHat className="w-5 h-5" />
+          <p className="font-display text-xs tracking-mega uppercase">{p.eyebrow}</p>
+        </div>
+        <h2 className="mt-3 font-display font-bold text-4xl sm:text-5xl tracking-tight leading-[1.03]">{p.heading}</h2>
+        <p className="mt-5 text-black/60 text-lg font-body leading-relaxed">{p.body}</p>
+      </Reveal>
+
+      <ol className="mt-10 sm:mt-14 grid gap-8 sm:gap-6 sm:grid-cols-2">
+        {shown.map((u, i) => (
+          <li key={u.date} data-testid={`progress-item-${i}`}>
+            <figure>
+              <div className="relative overflow-hidden aspect-[4/3] bg-black/5">
+                <img
+                  src={IMG(u.img)}
+                  alt={`Haus On 15 site progress, ${fmtDate(u.date, "en")}`}
+                  loading="lazy"
+                  className="w-full h-full object-cover"
+                />
+                {i === 0 && (
+                  <span className="absolute top-3 left-3 bg-[#14110E]/85 text-[#C8A24C] text-[11px] font-display tracking-[0.14em] uppercase px-2.5 py-1">
+                    {p.latest}
+                  </span>
+                )}
+              </div>
+              <figcaption className="mt-3">
+                <time dateTime={u.date} className="font-display font-semibold text-sm tracking-wide text-[var(--taupe-deep)]">
+                  {fmtDate(u.date, lang)}
+                </time>
+                <p className="mt-1 text-black/70 font-body leading-relaxed">{u.note[lang] || u.note.en}</p>
+              </figcaption>
+            </figure>
+          </li>
+        ))}
+      </ol>
+
+      {PROGRESS.length > PROGRESS_VISIBLE && (
+        <div className="mt-8 text-center">
+          <button
+            onClick={() => setAll((v) => !v)}
+            data-testid="progress-toggle"
+            className="font-display text-sm tracking-wide underline underline-offset-4 text-[var(--taupe-deep)]"
+          >
+            {all ? p.showLess : p.showAll}
+          </button>
+        </div>
+      )}
+    </section>
+  );
+}
+
 function Gallery() {
   const { t } = useLang();
   return (
@@ -1667,11 +1789,13 @@ export default function App() {
           <Manifesto />
           <AtAGlance />
           <FloorPlans />
+          <VirtualTour />
           <Gallery />
           <Amenities />
           <RentalDemand />
           {/* <MediaCoverage />  ← 已停用：内容和上面的 Gamuda Land × Taylor's 区块重复。
               想放回来就把这一行前后的注解符号拿掉 */}
+          <SiteProgress />
           <RegisterForm />
           {/* <Facilities />  ← 想显示设施九宫格就把这一行前后的注解符号拿掉 */}
         </main>

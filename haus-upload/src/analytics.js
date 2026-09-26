@@ -8,6 +8,7 @@
  *    1. 点 WhatsApp（任何一个入口，包含右下角浮动按钮）
  *    2. 送出留资表单成功
  *    3. 下载价格表 PDF
+ *    4. 打开 360° 样板房导览（算「有兴趣」，不算转换）
  *
  *  这三个就是广告后台要看的「转换」。有了它们，Meta / Google 才知道
  *  该把广告推给什么样的人，你也才看得出哪条广告真的带来询问。
@@ -63,6 +64,7 @@ export const trackWhatsApp = (where) =>
   send("whatsapp_click", "Contact", true, { source: where }, GOOGLE_ADS_LABELS.whatsapp);
 export const trackLead = () => send("generate_lead", "Lead", true, {}, GOOGLE_ADS_LABELS.lead);
 export const trackPriceList = () => send("file_download", "PriceListDownload", false);
+export const trackVirtualTour = () => send("virtual_tour_open", "ViewContent", true);
 
 // ---- 启动 ------------------------------------------------------------------
 export function initAnalytics() {
@@ -84,6 +86,8 @@ export function initAnalytics() {
       trackWhatsApp(a.dataset.testid || "unknown");
     } else if (href.toLowerCase().endsWith(".pdf")) {
       trackPriceList();
+    } else if (href.includes("goprop360.com")) {
+      trackVirtualTour();
     }
   });
 }

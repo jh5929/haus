@@ -52,6 +52,35 @@ export const AGENCY = {
   address: "ZP-01-01, First Floor, Zest Point, Lebuhraya Bukit Jalil, BK9, Bandar Kinrara, 47180 Puchong, Selangor",
 };
 
+/* ---- 工程进度（空拍图）--------------------------------------------------
+ *  新的一笔放最上面。加一笔的步骤：
+ *    1. 照片丢进 public/renders/，命名 progress-年-月.jpg
+ *    2. 照下面的格式加一段：日期写 YYYY-MM-DD，说明中英各一句
+ *  说明照实写照片里看得到的东西，别写还没发生的工程。
+ *  超过 4 笔会自动收起旧的，访客按「查看全部」才展开。
+ * ------------------------------------------------------------------------- */
+export const PROGRESS = [
+  {
+    date: "2026-08-21",
+    img: "progress-2026-08.jpg",
+    note: {
+      en: "Site cleared. Demolition of the last structure and earthworks under way.",
+      zh: "基地已清空，最后一栋旧建筑拆除中，土方工程进行中。",
+    },
+  },
+  {
+    date: "2026-03-21",
+    img: "progress-2026-03.jpg",
+    note: {
+      en: "Before works began — the existing buildings on site.",
+      zh: "动工前 —— 基地上的原有建筑。",
+    },
+  },
+];
+
+/* ---- 360° 样板房线上参观（开发商提供的连结，换了就改这里）---------------- */
+export const VIRTUAL_TOUR_URL = "https://goprop360.com/360vr/Haus_on_15/";
+
 export const CONTACT_EMAIL = "hauson15residence@gmail.com"; // 页尾的邮箱
 export const CONTACT_PHONE_DISPLAY = "+6017-9436799"; // 页尾显示的电话号码
 export const CONTACT_PHONE_TEL = "60179436799"; // 点电话时真正拨出去的号码（国际格式，不要 + 号）
@@ -265,6 +294,21 @@ export const translations = {
       errFailed: "Something went wrong. Please try again or use WhatsApp.",
       sendViaWhatsApp: "Send my details on WhatsApp",
     },
+    tour: {
+      eyebrow: "Show unit",
+      heading: "Walk through the show unit in 360°",
+      body: "Step inside the furnished show units from anywhere and look around every room before you visit.",
+      cta: "Start the 360° tour",
+      hint: "On a phone, turn it sideways for the best view.",
+    },
+    progress: {
+      eyebrow: "Site progress",
+      heading: "Watch it rise.",
+      body: "Drone photos from the SS15 site, updated as works move ahead.",
+      latest: "Latest",
+      showAll: "View all updates",
+      showLess: "Show fewer",
+    },
     gallery: {
       eyebrow: "The vision",
       heading: "Gallery",
@@ -468,6 +512,21 @@ export const translations = {
       errRequired: "请填写所有栏位。",
       errFailed: "提交失败，请再试一次，或直接用 WhatsApp 联系我们。",
       sendViaWhatsApp: "用 WhatsApp 传送我的资料",
+    },
+    tour: {
+      eyebrow: "样板房",
+      heading: "360° 线上参观样板房",
+      body: "不用到现场，也能走进布置好的样板房，每个房间都能自由转看。",
+      cta: "开始 360° 参观",
+      hint: "用手机看的话，横放效果最好。",
+    },
+    progress: {
+      eyebrow: "工程进度",
+      heading: "见证它拔地而起",
+      body: "SS15 基地实拍空拍图，随工程进度持续更新。",
+      latest: "最新",
+      showAll: "查看全部进度",
+      showLess: "收起",
     },
     gallery: {
       eyebrow: "项目愿景",
