@@ -249,6 +249,7 @@ function Header() {
   // 导航项目。href 要对得上各区块的 id（例如 #floorplans 对应 §9 的 <section id="floorplans">）
   const nav = [
     { href: "#floorplans", label: t.nav.residences },
+    { href: "#virtual-tour", label: t.nav.tour },
     { href: "#gallery", label: t.nav.gallery },
     { href: "#location", label: t.nav.location },
     { href: "#register", label: t.nav.register },
@@ -1757,22 +1758,43 @@ export default function App() {
     };
     raf = requestAnimationFrame(loop);
 
-    // 点 #floorplans 这类连结时，平顺卷到该区块（-80 是留给固定导航栏的空间）
+    // 卷到某个区块时，让区块的「内容」（标题）刚好贴在导航栏下面。
+    // 每个区块上方都有一大段 padding 留白，所以要把它扣掉，不然标题上面会空一大块。
+    const GAP = 16; // 标题和导航栏之间留的一点点距离
+    const findSection = (hash) => {
+      if (!hash || hash.length < 2) return null;
+      try { return document.querySelector(hash); } catch { return null; } // 奇怪的 #xxx 不当成区块
+    };
+    const scrollToSection = (el, opts = {}) => {
+      if (el.id === "top") return lenis.scrollTo(0, opts);
+      const header = document.querySelector('[data-testid="header-bar"]');
+      const headerH = header ? header.offsetHeight : 72;
+      const padTop = parseFloat(getComputedStyle(el).paddingTop) || 0;
+      // 自己算出绝对位置再交给 Lenis。直接传元素的话，Lenis 会再额外扣掉区块的
+      // scroll-mt-24（96px），之前标题上方那一大段空白就是这样来的。
+      const y = el.getBoundingClientRect().top + window.scrollY + padTop - headerH - GAP;
+      lenis.scrollTo(Math.max(0, y), opts);
+    };
+
+    // 点 #floorplans 这类连结时，平顺卷过去
     const onAnchorClick = (e) => {
       const a = e.target.closest('a[href^="#"]');
       if (!a) return;
-      const id = a.getAttribute("href");
-      if (id.length < 2) return;
-      const el = document.querySelector(id);
+      const el = findSection(a.getAttribute("href"));
       if (el) {
         e.preventDefault();
-        lenis.scrollTo(el, { offset: -80 });
+        scrollToSection(el);
       }
     };
     document.addEventListener("click", onAnchorClick);
 
+    // 从外面带着 #xxx 进来（FB 贴文的 /#progress、Google 搜寻结果的子连结）也停在同样的位置
+    const landing = findSection(window.location.hash);
+    const landingTimer = landing ? setTimeout(() => scrollToSection(landing, { immediate: true }), 500) : null;
+
     return () => {
       cancelAnimationFrame(raf);
+      clearTimeout(landingTimer);
       document.removeEventListener("click", onAnchorClick);
       lenis.destroy();
     };

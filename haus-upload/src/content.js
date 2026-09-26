@@ -201,7 +201,7 @@ export const translations = {
       installmentNote: "Monthly installment is an estimate — 90% loan, 35 years, 4.4% p.a.",
       enquireLayout: "Enquire about this layout",
     },
-    nav: { residences: "Residences", gallery: "Gallery", location: "Location", register: "Register" },
+    nav: { residences: "Residences", tour: "360° Tour", gallery: "Gallery", location: "Location", register: "Register" },
     floorplans: { enlarge: "Tap to enlarge · pinch to zoom", resetZoom: "Reset" },
     glance: {
       eyebrow: "At a glance",
@@ -422,7 +422,7 @@ export const translations = {
       installmentNote: "每月供期为预估值 —— 贷款 90%、35 年、年利率 4.4%。",
       enquireLayout: "咨询这个户型",
     },
-    nav: { residences: "单位", gallery: "相册", location: "位置", register: "登记" },
+    nav: { residences: "单位", tour: "360° 样板房", gallery: "相册", location: "位置", register: "登记" },
     floorplans: { enlarge: "点击放大 · 双指缩放", resetZoom: "复原" },
     glance: {
       eyebrow: "项目速览",
