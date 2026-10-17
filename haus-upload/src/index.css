@@ -33,6 +33,15 @@ body {
 
 ::selection { background: var(--gold); color: #fff; }
 
+/* iOS Safari 没加 viewport-fit=cover 时，safe-area（顶部状态栏 / 底部工具条）
+   会直接露出 canvas 背景色，而不是画页面内容。手机上把这个颜色改深，
+   让它跟深色 hero / 深色 header 对上，不要露出乳白色。 */
+@media (max-width: 639px) {
+    html, body {
+        background-color: var(--ink);
+    }
+}
+
 .font-display { font-family: 'Outfit', sans-serif; }
 .font-body { font-family: 'Manrope', sans-serif; }
 .font-serif-accent { font-family: 'Cormorant Garamond', serif; }
@@ -123,8 +132,8 @@ body {
    所以 hero 外层要用 large viewport 高度撐满整屏，避免下面的卡片在工具条后露头 */
 @media (max-width: 639px) {
     .hero-mobile-fill {
-        min-height: 100vh;
-        min-height: 100lvh;
+        min-height: calc(100vh + 2rem);
+        min-height: calc(100lvh + 2rem);
     }
 }
 
