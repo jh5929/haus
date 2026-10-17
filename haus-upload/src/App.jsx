@@ -400,7 +400,7 @@ function Hero() {
     <section
       id="top"
       ref={ref}
-      className="relative w-full min-h-[100svh] overflow-hidden rounded-b-[2rem] grain"
+      className="relative w-full hero-mobile-fill sm:min-h-[100svh] overflow-hidden rounded-b-[2rem] grain"
       data-testid="hero-section"
     >
       <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0 z-0">
@@ -481,8 +481,8 @@ const STAT_GOLD = ["price", "yield"]; // 这两个数字用金色
 function StatsBento() {
   const { t } = useLang();
   return (
-    <section className="relative z-20 px-4 sm:px-8 mt-6 sm:-mt-20" data-testid="stats-section">
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+    <section className="relative z-20 px-4 sm:px-8 mt-10 sm:-mt-20" data-testid="stats-section">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-4">
         {t.stats.map((s, i) => (
           <motion.div
             key={i}
@@ -492,19 +492,19 @@ function StatsBento() {
             viewport={{ once: true }}
             transition={{ type: "spring", stiffness: 140, damping: 16, delay: i * 0.08 }}
             whileHover={{ y: -6, transition: { type: "spring", stiffness: 300, damping: 12 } }}
-            className="glass rounded-2xl p-5 sm:p-6"
+            className="glass rounded-2xl px-5 py-6 sm:p-6"
           >
             {STAT_ICONS[s.key]
-              ? createElement(STAT_ICONS[s.key], { className: "w-7 h-7 sm:w-8 sm:h-8 text-[var(--taupe-deep)] mb-4", strokeWidth: 1.4 })
+              ? createElement(STAT_ICONS[s.key], { className: "w-9 h-9 sm:w-8 sm:h-8 text-[var(--taupe-deep)] mb-5 sm:mb-4", strokeWidth: 1.4 })
               : null}
             <div
-              className={`font-display font-extrabold text-2xl sm:text-3xl tracking-tight ${
+              className={`font-display font-extrabold text-3xl sm:text-3xl tracking-tight ${
                 STAT_GOLD.includes(s.key) ? "text-[var(--taupe-deep)]" : "text-[#14110E]"
               }`}
             >
               {s.value}
             </div>
-            <div className="mt-1.5 text-[13px] sm:text-sm text-black/55 font-body leading-snug">{s.label}</div>
+            <div className="mt-2 sm:mt-1.5 text-sm sm:text-sm text-black/55 font-body leading-snug">{s.label}</div>
           </motion.div>
         ))}
       </div>

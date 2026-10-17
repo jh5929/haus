@@ -119,6 +119,15 @@ body {
 /* 原本 App.css 的唯一一条规则，合并过来 */
 .App { min-height: 100vh; }
 
+/* iOS Safari 的悬浮半透明工具条不占 small viewport，但内容会画在它后面，
+   所以 hero 外层要用 large viewport 高度撐满整屏，避免下面的卡片在工具条后露头 */
+@media (max-width: 639px) {
+    .hero-mobile-fill {
+        min-height: 100vh;
+        min-height: 100lvh;
+    }
+}
+
 /* 右下角的 WhatsApp 浮动按钮要圆的。
    上面那条「全站直角」的规则用了 !important，会把它压成方块，
    所以这里单独把它（和它的脉冲光圈）放行，其他地方维持直角不变。 */
