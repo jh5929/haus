@@ -481,7 +481,7 @@ const STAT_GOLD = ["price", "yield"]; // 这两个数字用金色
 function StatsBento() {
   const { t } = useLang();
   return (
-    <section className="relative z-20 px-4 sm:px-8 -mt-16 sm:-mt-20" data-testid="stats-section">
+    <section className="relative z-20 px-4 sm:px-8 mt-6 sm:-mt-20" data-testid="stats-section">
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         {t.stats.map((s, i) => (
           <motion.div
