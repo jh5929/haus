@@ -207,7 +207,6 @@ export const translations = {
       eyebrow: "At a glance",
       heading: "The essentials.",
       rows: [
-        { key: "developer",  k: "Developer", v: "Gamuda" },
         { key: "location",   k: "Location", v: "SS15, Subang Jaya, Selangor" },
         { key: "land",       k: "Land size", v: "2.88 acres" },
         { key: "units",      k: "Total units", v: "522 serviced apartments" },
@@ -428,7 +427,6 @@ export const translations = {
       eyebrow: "项目速览",
       heading: "核心资料。",
       rows: [
-        { key: "developer",  k: "开发商", v: "金务大" },
         { key: "location",   k: "地段", v: "梳邦再也 SS15，雪兰莪" },
         { key: "land",       k: "占地面积", v: "2.88 英亩" },
         { key: "units",      k: "总单位数", v: "522 服务式公寓" },
