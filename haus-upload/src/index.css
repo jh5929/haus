@@ -146,3 +146,12 @@ body {
 .wa-fab {
     box-shadow: 0 10px 30px -6px rgba(37, 211, 102, 0.6);
 }
+
+/* 首屏底部深色条（见 App.jsx HeroBottomTint） */
+.hero-bottom-tint {
+    position: fixed; left: 0; right: 0; bottom: 0;
+    height: calc(24px + env(safe-area-inset-bottom));
+    background: var(--ink); pointer-events: none; z-index: 1;
+    transition: opacity .2s;
+}
+.hero-bottom-tint.is-hidden { opacity: 0; visibility: hidden; }
