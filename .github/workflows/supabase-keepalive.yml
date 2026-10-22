@@ -1,12 +1,15 @@
 # =============================================================================
 #  让 Supabase 免费方案不要自动休眠
 # =============================================================================
-#  免费方案「超过 7 天没活动」就会暂停专案，一暂停网站的留资表单就写不进去。
-#  这个排程每两天打一次资料库，让它一直被算成「有活动」。
+#  免费方案「超过 7 天没活动」就会暂停专案。只读查询不一定算活动，
+#  所以这个排程每天「写入」一笔心跳（keepalive_heartbeat 表）。
 #
-#  需要先在 GitHub 设两个 Secret（Settings → Secrets and variables → Actions）：
-#    SUPABASE_URL       例如 https://xxxx.supabase.co
-#    SUPABASE_ANON_KEY  Supabase → Settings → API → anon public key
+#  一次性设定：
+#    1. Supabase → SQL Editor → 贴上
+#       supabase/migrations/20261020000000_keepalive_heartbeat.sql → Run
+#    2. GitHub Secrets（Settings → Secrets and variables → Actions，已设好）：
+#       SUPABASE_URL       例如 https://xxxx.supabase.co
+#       SUPABASE_ANON_KEY  Supabase → Settings → API → anon public key
 #
 #  想手动跑一次：Actions 分页 → 选这个 workflow → Run workflow
 # =============================================================================
@@ -15,16 +18,15 @@ name: Supabase keep-alive
 
 on:
   schedule:
-    # 每两天的 03:17 UTC（马来西亚时间早上 11:17）跑一次。
-    # 故意避开整点 —— GitHub 整点排队最挤，容易被延后。
-    - cron: "17 3 */2 * *"
-  workflow_dispatch: # 让你可以手动按一下
+    # 每天 03:17 UTC（马来西亚时间早上 11:17）。避开整点，减少排队延迟。
+    - cron: "17 3 * * *"
+  workflow_dispatch:
 
 jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Query the leads table
+      - name: Write heartbeat (keepalive_ping RPC)
         env:
           URL: ${{ secrets.SUPABASE_URL }}
           KEY: ${{ secrets.SUPABASE_ANON_KEY }}
@@ -34,18 +36,32 @@ jobs:
             exit 1
           fi
 
-          # 真的去查一笔资料，让 Postgres 有实际活动（只打到 API 不一定算数）
           code=$(curl -sS -o /tmp/out.txt -w "%{http_code}" --max-time 30 \
+            -X POST \
             -H "apikey: $KEY" \
             -H "Authorization: Bearer $KEY" \
-            "$URL/rest/v1/leads?select=id&limit=1")
+            -H "Content-Type: application/json" \
+            -d '{}' \
+            "$URL/rest/v1/rpc/keepalive_ping")
 
           echo "HTTP $code"
           head -c 300 /tmp/out.txt; echo
 
-          # 200 = 查到了；401/403 = RLS 挡住读取，但请求已经打到资料库，一样算活动
           case "$code" in
-            200|401|403) echo "资料库有回应，专案是醒着的" ;;
-            000)         echo "::error::连不上，专案可能已经被暂停了"; exit 1 ;;
-            *)           echo "::error::非预期的回应 $code"; exit 1 ;;
+            200) echo "心跳已写入，专案是醒着的" ;;
+            404) echo "::error::找不到 keepalive_ping 函数 —— 请先在 Supabase SQL Editor 跑 supabase/migrations/20261020000000_keepalive_heartbeat.sql"; exit 1 ;;
+            000) echo "::error::连不上，专案可能已经被暂停了"; exit 1 ;;
+            *)   echo "::error::非预期的回应 $code"; exit 1 ;;
           esac
+
+      - name: Query the leads table (secondary, non-fatal)
+        if: always()
+        continue-on-error: true
+        env:
+          URL: ${{ secrets.SUPABASE_URL }}
+          KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          code=$(curl -sS -o /dev/null -w "%{http_code}" --max-time 30 \
+            -H "apikey: $KEY" -H "Authorization: Bearer $KEY" \
+            "$URL/rest/v1/leads?select=id&limit=1") || true
+          echo "leads 查询 HTTP $code"
