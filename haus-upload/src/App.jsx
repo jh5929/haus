@@ -400,7 +400,7 @@ function Hero() {
     <section
       id="top"
       ref={ref}
-      className="relative w-full hero-mobile-fill sm:min-h-[100svh] overflow-hidden rounded-b-[2rem] grain"
+      className="relative w-full hero-mobile-fill sm:min-h-[100svh] overflow-hidden sm:rounded-b-[2rem] grain"
       data-testid="hero-section"
     >
       <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0 z-0">
@@ -516,20 +516,6 @@ function StatsBento() {
  * §6  PARTNERSHIP — 动土礼 合作区块
  *     文字改 content.js 的 partnership，照片改 content.js 的 PARTNERSHIP_IMAGE
  * ========================================================================== */
-
-/* iOS Safari 26 的半透明底部工具条会取页面底部附近的颜色（包括外层乳白 .App 背景、
-   hero 圆角下露出的乳白），所以首屏底部会看到白条。手机版在 hero 还在画面里时，
-   在底部固定一条深色，让工具条取到深色；往下滑出 hero 后隐藏。 */
-function HeroBottomTint() {
-  const [show, setShow] = useState(true);
-  useEffect(() => {
-    const onScroll = () => setShow(window.scrollY < window.innerHeight * 0.5);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-  return <div aria-hidden="true" className={`hero-bottom-tint sm:hidden ${show ? "" : "is-hidden"}`} />;
-}
 
 function Partnership() {
   const { t } = useLang();
@@ -1800,7 +1786,6 @@ export default function App() {
     <LanguageProvider>
       <div className="App relative bg-[#F7F4EF]" data-testid="landing-root">
         <Header />
-        <HeroBottomTint />
         <main>
           <Hero />
           <StatsBento />
