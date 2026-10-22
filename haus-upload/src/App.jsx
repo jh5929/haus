@@ -11,7 +11,7 @@
  *    §3  Header      顶部导航栏
  *    §4  Hero        首屏大图 + HAUS on 15 标题
  *    §5  StatsBento  六个数据卡（永久地契 / 面积 / 回报…）
- *    §6  Partnership Gamuda Land x Taylor's 合作区块
+ *    §6  Partnership 动土礼 合作区块
  *    §7  Manifesto   为何投资 · 四个理由
  *    §8  AtAGlance   项目速览表格
  *    §9  FloorPlans  户型 A–E + 平面图放大弹窗
@@ -400,7 +400,7 @@ function Hero() {
     <section
       id="top"
       ref={ref}
-      className="relative w-full hero-mobile-fill sm:min-h-[100svh] overflow-hidden rounded-b-[2rem] grain"
+      className="relative w-full hero-mobile-fill sm:min-h-[100svh] overflow-hidden sm:rounded-b-[2rem] grain"
       data-testid="hero-section"
     >
       <motion.div style={{ y: imgY, scale: imgScale }} className="absolute inset-0 z-0">
@@ -513,7 +513,7 @@ function StatsBento() {
 }
 
 /* =============================================================================
- * §6  PARTNERSHIP — Gamuda Land x Taylor's 合作区块
+ * §6  PARTNERSHIP — 动土礼 合作区块
  *     文字改 content.js 的 partnership，照片改 content.js 的 PARTNERSHIP_IMAGE
  * ========================================================================== */
 
@@ -528,25 +528,7 @@ function Partnership() {
       <div className="absolute inset-0 bg-[#33281ED9]" />
 
       <Reveal className="relative z-10 max-w-3xl mx-auto text-center px-5 sm:px-8 py-16 sm:py-24">
-        {/* 手机版：两个小 logo 排在标题上面（并排放不下） */}
-        <div className="flex sm:hidden items-center justify-center gap-4 mb-5">
-          <img src={IMG("logo-gamuda.png")} alt="Gamuda Land" className="h-4 w-auto opacity-90" />
-          <span className="font-serif-accent italic text-[var(--gold)] text-lg leading-none">&times;</span>
-          <img src={IMG("logo-taylors.png")} alt="Taylor's Assets" className="h-7 w-auto opacity-90" />
-        </div>
-
-        {/* 两边金线 + 中间标题；电脑版标题左右各放一个小 logo */}
-        <div className="flex items-center gap-3 sm:gap-5">
-          <span className="flex-1 h-px bg-[#C0A063]/40" />
-          <img src={IMG("logo-gamuda.png")} alt="" aria-hidden="true" className="hidden sm:block h-4 w-auto shrink-0" />
-          <h2 className="font-serif-accent italic text-white text-2xl sm:text-4xl lg:text-5xl leading-tight whitespace-nowrap">
-            {t.partnership.title}
-          </h2>
-          <img src={IMG("logo-taylors.png")} alt="" aria-hidden="true" className="hidden sm:block h-8 w-auto shrink-0" />
-          <span className="flex-1 h-px bg-[#C0A063]/40" />
-        </div>
-
-        <div className="mt-7 sm:mt-10 rounded-2xl overflow-hidden border border-[#C8A24C]/30 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.9)]">
+        <div className="rounded-2xl overflow-hidden border border-[#C8A24C]/30 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.9)]">
           <img
             src={IMG(PARTNERSHIP_IMAGE)}
             alt={t.partnership.title}
@@ -1815,7 +1797,7 @@ export default function App() {
           <Gallery />
           <Amenities />
           <RentalDemand />
-          {/* <MediaCoverage />  ← 已停用：内容和上面的 Gamuda Land × Taylor's 区块重复。
+          {/* <MediaCoverage />  ← 已停用：内容和上面的 动土礼区块重复。
               想放回来就把这一行前后的注解符号拿掉 */}
           <SiteProgress />
           <RegisterForm />

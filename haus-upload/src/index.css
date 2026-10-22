@@ -133,7 +133,7 @@ body {
 @media (max-width: 639px) {
     .hero-mobile-fill {
         min-height: calc(100vh + 2rem);
-        min-height: calc(100lvh + 2rem);
+        min-height: calc(100lvh + 2rem + env(safe-area-inset-bottom));
     }
 }
 
@@ -146,3 +146,4 @@ body {
 .wa-fab {
     box-shadow: 0 10px 30px -6px rgba(37, 211, 102, 0.6);
 }
+

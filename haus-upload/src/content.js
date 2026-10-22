@@ -138,7 +138,7 @@ export const MEDIA_IMAGES = ["news-1.jpg", "news-2.jpg", "news-3.jpg"];
 /* 首屏封面大图。换封面：把新图放进 public/renders/，然后把下面的档名改掉 */
 export const HERO_IMAGE = "newbackgroundpic1.jpeg";
 
-/* Gamuda Land × Taylor's 合作区块用的照片。
+/* 动土礼 合作区块用的照片。
    换照片：把照片放进 public/renders/，然后把下面的档名改成新的档名。 */
 export const PARTNERSHIP_IMAGE = "gamuda-taylors.jpg"; // 2026-07-02 动土礼合照
 
@@ -152,7 +152,7 @@ export const translations = {
   en: {
     header: { enquire: "Enquire", chat: "Chat" },
     hero: {
-      badge: "Gamuda Land · Freehold · SS15",
+      badge: "Freehold · SS15",
       tagline: "The Last Piece of Land in SS15 — the final freehold address, engineered for yields up to 9%.",
       cta: "Enquire on WhatsApp",
       explore: "View residences",
@@ -167,10 +167,10 @@ export const translations = {
       { key: "students",   value: "82,628+", label: "Students within 5km" },
     ],
     partnership: {
-      title: "Gamuda Land  ×  Taylor's",
+      title: "Groundbreaking Ceremony",
       photoCaption: "Groundbreaking Ceremony · 2 July 2026",
       caption: "Team up for |RM540 Million| SS15 mixed use development",  // | 之间的字会变金色
-      note: "Backed by Gamuda Land — one of Malaysia's most trusted developers, with a track record of award-winning, high-growth townships.",
+      note: "Backed by one of Malaysia's most trusted developers, with a track record of award-winning, high-growth townships.",
     },
     manifesto: {
       eyebrow: "Why invest",
@@ -207,7 +207,7 @@ export const translations = {
       eyebrow: "At a glance",
       heading: "The essentials.",
       rows: [
-        { key: "developer",  k: "Developer", v: "Gamuda Land" },
+        { key: "developer",  k: "Developer", v: "Gamuda" },
         { key: "location",   k: "Location", v: "SS15, Subang Jaya, Selangor" },
         { key: "land",       k: "Land size", v: "2.88 acres" },
         { key: "units",      k: "Total units", v: "522 serviced apartments" },
@@ -272,12 +272,12 @@ export const translations = {
     },
     media: {
       eyebrow: "As featured in",
-      heading: "Backed by Gamuda Land.",
+      heading: "Backed by a trusted developer.",
       sub: "One of Malaysia's most trusted developers — a track record of award-winning, high-growth townships.",
       items: [
         { source: "The Edge", title: "Gamuda, Taylor's plan RM500mil SS15 redevelopment" },
-        { source: "The Star", title: "From Legacy to Future: Reimagining Taylor's SS15 with Gamuda Land" },
-        { source: "The Star", title: "Gamuda Land & Taylor's Education Group join forces to bring affordable private education" },
+        { source: "The Star", title: "From Legacy to Future: Reimagining Taylor's SS15" },
+        { source: "The Star", title: "Taylor's Education Group joins forces to bring affordable private education" },
       ],
     },
     register: {
@@ -365,7 +365,7 @@ export const translations = {
       contact: "Contact",
       disclaimer: "All visuals are artist's impressions for reference only and do not form part of any offer or contract.",
       marketedBy: "Marketed by",
-      notOfficial: "This site is operated by an appointed marketing agent and is not the developer's official website. Gamuda Land is named as the project developer for identification only.",
+      notOfficial: "This site is operated by an appointed marketing agent and is not the developer's official website. The project developer is named for identification only.",
     },
     plan: { title: "Floor Plan", hint: "Tap image to zoom · drag to pan", close: "Close" },
   },
@@ -388,10 +388,10 @@ export const translations = {
       { key: "students",   value: "82,628+", label: "5 公里内学生" },
     ],
     partnership: {
-      title: "Gamuda Land  ×  Taylor's",
+      title: "动土仪式",
       photoCaption: "动土仪式 · 2026 年 7 月 2 日",
       caption: "携手打造 |RM5.4 亿| SS15 综合发展项目",  // | 之间的字会变金色
-      note: "由 Gamuda Land 开发 —— 马来西亚最受信赖的发展商之一，屡获殊荣的高增值社区开发纪录。",
+      note: "由马来西亚最受信赖的发展商之一，屡获殊荣的高增值社区开发纪录。",
     },
     manifesto: {
       eyebrow: "为何投资",
@@ -428,7 +428,7 @@ export const translations = {
       eyebrow: "项目速览",
       heading: "核心资料。",
       rows: [
-        { key: "developer",  k: "开发商", v: "金务大 Gamuda Land" },
+        { key: "developer",  k: "开发商", v: "金务大" },
         { key: "location",   k: "地段", v: "梳邦再也 SS15，雪兰莪" },
         { key: "land",       k: "占地面积", v: "2.88 英亩" },
         { key: "units",      k: "总单位数", v: "522 服务式公寓" },
@@ -491,7 +491,7 @@ export const translations = {
     },
     media: {
       eyebrow: "媒体报道",
-      heading: "由金务大 Gamuda Land 打造。",
+      heading: "由信誉卓著的发展商打造。",
       sub: "马来西亚最受信赖的发展商之一 —— 屡获殊荣、增值强劲的城镇开发往绩。",
       items: [
         { source: "The Edge", title: "金务大与泰莱携手，打造 RM5 亿 SS15 重建计划" },
@@ -584,7 +584,7 @@ export const translations = {
       contact: "联系我们",
       disclaimer: "所有图像均为艺术示意图，仅供参考，不构成任何要约或合约的一部分。",
       marketedBy: "销售代理",
-      notOfficial: "本网站由受委任的销售代理营运，并非开发商官方网站。文中提及金务大 Gamuda Land 仅为识别项目之用。",
+      notOfficial: "本网站由受委任的销售代理营运，并非开发商官方网站。文中提及开发商名称仅为识别项目之用。",
     },
     plan: { title: "平面图", hint: "点击图片放大 · 拖动平移", close: "关闭" },
   },
