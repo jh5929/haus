@@ -131,9 +131,9 @@ html, body {
    所以 hero 外层要用 large viewport 高度撐满整屏，避免下面的卡片在工具条后露头 */
 @media (max-width: 639px) {
     .hero-mobile-fill {
-        min-height: calc(100vh + 2rem);
-        min-height: calc(100lvh + 2rem + env(safe-area-inset-bottom));
-        min-height: max(calc(100lvh + 2rem + env(safe-area-inset-bottom)), calc(100dvh + 2rem + env(safe-area-inset-bottom)));
+        /* iOS 26 浮动工具条下方的区域可能比 lvh 还高，多给 6rem，确保首屏只有 hero */
+        min-height: calc(100vh + env(safe-area-inset-bottom) + 6rem);
+        min-height: calc(max(100vh, 100lvh, 100dvh) + env(safe-area-inset-bottom) + 6rem);
     }
 }
 
