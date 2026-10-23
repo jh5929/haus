@@ -279,7 +279,7 @@ function Header() {
       initial={{ y: -90, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ type: "spring", stiffness: 120, damping: 18, delay: 0.2 }}
-      className="fixed top-0 left-0 right-0 z-50"
+      className="fixed top-0 left-0 right-0 z-50 pt-[env(safe-area-inset-top)]"
       data-testid="site-header"
     >
       <div
@@ -412,17 +412,7 @@ function Hero() {
         style={{ y: contentY, opacity: fade }}
         className="relative z-10 flex flex-col justify-between min-h-[100svh] px-6 sm:px-12 pt-28 pb-10"
       >
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.6 }}
-          className="inline-flex self-start items-center gap-3 rounded-xl bg-[#14110EE6] backdrop-blur-md border border-[#C8A24C]/55 px-4 py-2 shadow-[0_14px_34px_-20px_rgba(0,0,0,0.9)]"
-        >
-          <span className="w-2 h-2 bg-[#C8A24C]" />
-          <span className="text-[11px] sm:text-xs tracking-mega uppercase font-display text-[#C8A24C]">{t.hero.badge}</span>
-        </motion.div>
-
-        <div className="max-w-4xl">
+        <div className="max-w-4xl flex-1 pt-4 sm:pt-0 sm:flex sm:flex-col sm:justify-center">
           <motion.h1
             variants={lineParent}
             initial="hidden"
@@ -1646,7 +1636,7 @@ function FloatingWhatsApp() {
       transition={{ type: "spring", stiffness: 200, damping: 14, delay: 1.4 }}
       whileHover={{ scale: 1.08 }}
       whileTap={{ scale: 0.9 }}
-      className="wa-fab pulse-ring fixed bottom-5 right-5 z-50 w-14 h-14 bg-[#25D366] text-white flex items-center justify-center"
+      className="wa-fab pulse-ring fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom))] right-5 z-50 w-14 h-14 bg-[#25D366] text-white flex items-center justify-center"
       aria-label="Chat on WhatsApp"
     >
       <WhatsappIcon className="w-7 h-7" />
@@ -1784,10 +1774,12 @@ export default function App() {
 
   return (
     <LanguageProvider>
-      <div className="App relative bg-[#F7F4EF]" data-testid="landing-root">
+      <div className="App relative bg-transparent sm:bg-[#F7F4EF]" data-testid="landing-root">
         <Header />
         <main>
           <Hero />
+          {/* 乳白底只从 hero 下面开始：iOS 26 Safari 会用页面底色填底部工具条后面的区域 */}
+          <div className="page-cream">
           <StatsBento />
           <Partnership />
           <Manifesto />
@@ -1802,8 +1794,9 @@ export default function App() {
           <SiteProgress />
           <RegisterForm />
           {/* <Facilities />  ← 想显示设施九宫格就把这一行前后的注解符号拿掉 */}
+          </div>
         </main>
-        <Footer />
+        <div className="page-cream"><Footer /></div>
         <FloatingWhatsApp />
       </div>
     </LanguageProvider>
