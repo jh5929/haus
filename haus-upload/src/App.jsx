@@ -412,17 +412,7 @@ function Hero() {
         style={{ y: contentY, opacity: fade }}
         className="relative z-10 flex flex-col justify-between min-h-[100svh] px-6 sm:px-12 pt-28 pb-10"
       >
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.6 }}
-          className="inline-flex self-start items-center gap-3 rounded-xl bg-[#14110EE6] backdrop-blur-md border border-[#C8A24C]/55 px-4 py-2 shadow-[0_14px_34px_-20px_rgba(0,0,0,0.9)]"
-        >
-          <span className="w-2 h-2 bg-[#C8A24C]" />
-          <span className="text-[11px] sm:text-xs tracking-mega uppercase font-display text-[#C8A24C]">{t.hero.badge}</span>
-        </motion.div>
-
-        <div className="max-w-4xl">
+        <div className="max-w-4xl flex-1 pt-4 sm:pt-0 sm:flex sm:flex-col sm:justify-center">
           <motion.h1
             variants={lineParent}
             initial="hidden"

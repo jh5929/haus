@@ -152,7 +152,6 @@ export const translations = {
   en: {
     header: { enquire: "Enquire", chat: "Chat" },
     hero: {
-      badge: "Freehold · SS15",
       tagline: "The Last Piece of Land in SS15 — the final freehold address, engineered for yields up to 9%.",
       cta: "Enquire on WhatsApp",
       explore: "View residences",
@@ -372,7 +371,6 @@ export const translations = {
   zh: {
     header: { enquire: "咨询", chat: "咨询" },
     hero: {
-      badge: "金务大 · 永久地契 · SS15",
       tagline: "SS15 最后一块地 —— 最后的永久地契名邸，租金回报高达 9%。",
       cta: "WhatsApp 咨询",
       explore: "查看单位",
