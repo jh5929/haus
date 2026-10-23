@@ -279,7 +279,7 @@ function Header() {
       initial={{ y: -90, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ type: "spring", stiffness: 120, damping: 18, delay: 0.2 }}
-      className="fixed top-0 left-0 right-0 z-50"
+      className="fixed top-0 left-0 right-0 z-50 pt-[env(safe-area-inset-top)]"
       data-testid="site-header"
     >
       <div
@@ -1636,7 +1636,7 @@ function FloatingWhatsApp() {
       transition={{ type: "spring", stiffness: 200, damping: 14, delay: 1.4 }}
       whileHover={{ scale: 1.08 }}
       whileTap={{ scale: 0.9 }}
-      className="wa-fab pulse-ring fixed bottom-5 right-5 z-50 w-14 h-14 bg-[#25D366] text-white flex items-center justify-center"
+      className="wa-fab pulse-ring fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom))] right-5 z-50 w-14 h-14 bg-[#25D366] text-white flex items-center justify-center"
       aria-label="Chat on WhatsApp"
     >
       <WhatsappIcon className="w-7 h-7" />
@@ -1774,10 +1774,12 @@ export default function App() {
 
   return (
     <LanguageProvider>
-      <div className="App relative bg-[#F7F4EF]" data-testid="landing-root">
+      <div className="App relative bg-transparent sm:bg-[#F7F4EF]" data-testid="landing-root">
         <Header />
         <main>
           <Hero />
+          {/* 乳白底只从 hero 下面开始：iOS 26 Safari 会用页面底色填底部工具条后面的区域 */}
+          <div className="page-cream">
           <StatsBento />
           <Partnership />
           <Manifesto />
@@ -1792,8 +1794,9 @@ export default function App() {
           <SiteProgress />
           <RegisterForm />
           {/* <Facilities />  ← 想显示设施九宫格就把这一行前后的注解符号拿掉 */}
+          </div>
         </main>
-        <Footer />
+        <div className="page-cream"><Footer /></div>
         <FloatingWhatsApp />
       </div>
     </LanguageProvider>
